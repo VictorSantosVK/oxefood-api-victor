@@ -1,7 +1,7 @@
-package br.com.ifpe.oxefood.modelo.cliente;
+package br.com.ifpe.oxefood.modelo.produto;
 
-import java.time.LocalDate;
 import org.hibernate.annotations.SQLRestriction;
+
 import br.com.ifpe.oxefood.util.entity.EntidadeAuditavel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,28 +13,31 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Cliente")
+@Table(name = "Produto")
 @SQLRestriction("habilitado = true")
 @Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cliente extends EntidadeAuditavel {
+public class Produto extends EntidadeAuditavel {
 
    @Column
-   private String nome;
+   private String codigo;
 
    @Column
-   private LocalDate dataNascimento;
+   private String titulo;
 
    @Column
-   private String cpf;
+   private String descricao;
 
    @Column
-   private String foneCelular;
+   private Double valorUnitario;
 
    @Column
-   private String foneFixo;
+   private Integer tempoEntregaMinimo;
+
+   @Column
+   private Integer tempoEntregaMaximo;
 
 }
