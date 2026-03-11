@@ -9,48 +9,39 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class EntregadorService {
+
     @Autowired
-   private EntregadorRepository repository;
+    private EntregadorRepository repository;
 
-   @Transactional
-   public Entregador save(Entregador entregador) {
+    @Transactional
+    public Entregador save(Entregador entregador) {
+        entregador.setHabilitado(Boolean.TRUE);
+        return repository.save(entregador);
+    }
 
-       entregador.setHabilitado(Boolean.TRUE);
-       return repository.save(entregador);
-   }
-
-   public List<Entregador> listarTodos() {
-
+    public List<Entregador> listarTodos() {
         return repository.findAll();
     }
 
     public Entregador obterPorID(Long id) {
-
         return repository.findById(id).get();
     }
 
     @Transactional
-    public void update(Long id, Entregador entregadorAlterado) {
-
+    public Entregador update(Long id, EntregadorRequestUpdate request) {
         Entregador entregador = repository.findById(id).get();
-        entregador.setNome(entregadorAlterado.getNome());
-        entregador.setDataNascimento(entregadorAlterado.getDataNascimento());
-        entregador.setCpf(entregadorAlterado.getCpf());
-        entregador.setFoneCelular(entregadorAlterado.getFoneCelular());
-        entregador.setFoneFixo(entregadorAlterado.getFoneFixo());
-        entregador.setRg(entregadorAlterado.getRg());
-        entregador.setQtdEntregaRealizadas(entregadorAlterado.getQtdEntregaRealizadas());
-        entregador.setValorFrete(entregadorAlterado.getValorFrete());
-        entregador.setEnderecoRua(entregadorAlterado.getEnderecoRua());
-        entregador.setEnderecoComplemento(entregadorAlterado.getEnderecoComplemento());
-        entregador.setEnderecoNumero(entregadorAlterado.getEnderecoNumero());
-        entregador.setEnderecoBairro(entregadorAlterado.getEnderecoBairro());
-        entregador.setEnderecoCidade(entregadorAlterado.getEnderecoCidade());
-        entregador.setEnderecoUf(entregadorAlterado.getEnderecoUf());
-        entregador.setEnderecoCep(entregadorAlterado.getEnderecoCep());
-        entregador.setAtivo(entregadorAlterado.getAtivo());
-
-        repository.save(entregador);
+        entregador.setNome(request.getNome());
+        entregador.setCpf(request.getCpf());
+        entregador.setRg(request.getRg());
+        entregador.setFoneCelular(request.getFoneCelular());
+        entregador.setPlacaVeiculo(request.getPlacaVeiculo());
+        return repository.save(entregador);
     }
 
+    @Transactional
+    public void delete(Long id) {
+        Entregador entregador = repository.findById(id).get();
+        entregador.setHabilitado(Boolean.FALSE);
+        repository.save(entregador);
+    }
 }
