@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.ifpe.oxefood.api.produto.ProdutoRequest;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -28,11 +29,16 @@ public class ProdutoService {
     }
 
     @Transactional
-    public Produto update(Long id, ProdutoRequestUpdate request) {
+    public Produto update(Long id, ProdutoRequest request) {
         Produto produto = repository.findById(id).get();
-        produto.setNome(request.getNome());
+
+        produto.setCodigo(request.getCodigo());
+        produto.setTitulo(request.getTitulo());
         produto.setDescricao(request.getDescricao());
-        produto.setValor(request.getValor());
+        produto.setValorUnitario(request.getValorUnitario());
+        produto.setTempoEntregaMinimo(request.getTempoEntregaMinimo());
+        produto.setTempoEntregaMaximo(request.getTempoEntregaMaximo());
+
         return repository.save(produto);
     }
 

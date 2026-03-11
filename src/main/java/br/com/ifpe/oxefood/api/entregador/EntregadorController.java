@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.ifpe.oxefood.modelo.entregador.Entregador;
-import br.com.ifpe.oxefood.modelo.entregador.EntregadorRequestUpdate;
 import br.com.ifpe.oxefood.modelo.entregador.EntregadorService;
 
 @RestController
@@ -36,7 +35,7 @@ public class EntregadorController {
     }
 
     @PutMapping("/{id}")
-    public Entregador update(@PathVariable Long id, @RequestBody EntregadorRequestUpdate request) {
+    public Entregador update(@PathVariable Long id, @RequestBody EntregadorRequest request) {
         return entregadorService.update(id, request);
     }
 

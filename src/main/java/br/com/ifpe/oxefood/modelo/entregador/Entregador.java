@@ -1,5 +1,7 @@
 package br.com.ifpe.oxefood.modelo.entregador;
 
+import java.time.LocalDate;
+
 import org.hibernate.annotations.SQLRestriction;
 
 import br.com.ifpe.oxefood.util.entity.EntidadeAuditavel;
@@ -32,8 +34,41 @@ public class Entregador extends EntidadeAuditavel {
     private String rg;
 
     @Column
+    private LocalDate dataNascimento;
+
+    @Column
     private String foneCelular;
 
     @Column
-    private String placaVeiculo;
+    private String foneFixo;
+
+    @Column
+    private Integer qtdEntregasRealizadas;
+
+    @Column
+    private Double valorFrete;
+
+    @Column
+    private String enderecoRua;
+
+    @Column
+    private String enderecoComplemento;
+
+    @Column
+    private String enderecoNumero;
+
+    @Column
+    private String enderecoBairro;
+
+    @Column
+    private String enderecoCidade;
+
+    @Column
+    private String enderecoCep;
+
+    @Column
+    private String enderecoUf;
+
+    @Column
+    private Boolean ativo;
 }

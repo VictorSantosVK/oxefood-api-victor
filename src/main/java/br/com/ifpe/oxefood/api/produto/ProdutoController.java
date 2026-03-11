@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.ifpe.oxefood.modelo.produto.Produto;
-import br.com.ifpe.oxefood.modelo.produto.ProdutoRequestUpdate;
 import br.com.ifpe.oxefood.modelo.produto.ProdutoService;
 
 @RestController
@@ -36,7 +35,7 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
-    public Produto update(@PathVariable Long id, @RequestBody ProdutoRequestUpdate request) {
+    public Produto update(@PathVariable Long id, @RequestBody ProdutoRequest request) {
         return produtoService.update(id, request);
     }
 
