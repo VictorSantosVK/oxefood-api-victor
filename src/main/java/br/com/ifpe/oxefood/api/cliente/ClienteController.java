@@ -1,7 +1,5 @@
 package br.com.ifpe.oxefood.api.cliente;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 import br.com.ifpe.oxefood.modelo.cliente.Cliente;
 import br.com.ifpe.oxefood.modelo.cliente.ClienteService;
@@ -21,16 +20,21 @@ import br.com.ifpe.oxefood.modelo.cliente.ClienteService;
 @RequestMapping("/api/cliente")
 @CrossOrigin
 public class ClienteController {
-    @GetMapping
+
+   @Autowired
+   private ClienteService clienteService;
+
+   @PostMapping
+   public ResponseEntity<Cliente> save(@RequestBody ClienteRequest request) {
+
+       Cliente cliente = clienteService.save(request.build());
+       return new ResponseEntity<Cliente>(cliente, HttpStatus.CREATED);
+   }
+
+
+   @GetMapping
     public List<Cliente> listarTodos() {
         return clienteService.listarTodos();
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Cliente> update(@PathVariable("id") Long id, @RequestBody ClienteRequest request) {
-
-        clienteService.update(id, request.build());
-        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
@@ -38,13 +42,12 @@ public class ClienteController {
         return clienteService.obterPorID(id);
     }
 
-    @Autowired
-    private ClienteService clienteService;
+    
+ @PutMapping("/{id}")
+ public ResponseEntity<Cliente> update(@PathVariable("id") Long id, @RequestBody ClienteRequest request) {
 
-    @PostMapping
-    public ResponseEntity<Cliente> save(@RequestBody ClienteRequest request) {
+       clienteService.update(id, request.build());
+       return ResponseEntity.ok().build();
+ }
 
-        Cliente cliente = clienteService.save(request.build());
-        return new ResponseEntity<Cliente>(cliente, HttpStatus.CREATED);
-    }
 }
