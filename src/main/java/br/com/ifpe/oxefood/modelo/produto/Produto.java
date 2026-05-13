@@ -21,8 +21,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Produto extends EntidadeAuditavel {
-    
-    
+
     @Column
     private String codigo;
 
@@ -40,4 +39,8 @@ public class Produto extends EntidadeAuditavel {
 
     @Column
     private Integer tempoEntregaMaximo;
+    
+    @Column
+    private String imagem;
+
 }

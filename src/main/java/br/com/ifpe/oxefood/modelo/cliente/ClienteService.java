@@ -1,5 +1,6 @@
 package br.com.ifpe.oxefood.modelo.cliente;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,15 @@ import org.springframework.stereotype.Service;
 import br.com.ifpe.oxefood.modelo.acesso.Perfil;
 import br.com.ifpe.oxefood.modelo.acesso.PerfilRepository;
 import br.com.ifpe.oxefood.modelo.acesso.UsuarioService;
+import br.com.ifpe.oxefood.modelo.mensagens.EmailService;
 import jakarta.transaction.Transactional;
 
 @Service
 public class ClienteService {
+
+    @Autowired
+    private EmailService emailService;
+
     @Autowired
     private UsuarioService usuarioService;
 
@@ -23,6 +29,7 @@ public class ClienteService {
 
     @Transactional
     public Cliente save(Cliente cliente) {
+
         usuarioService.save(cliente.getUsuario());
 
         for (Perfil perfil : cliente.getUsuario().getRoles()) {
@@ -31,13 +38,21 @@ public class ClienteService {
         }
 
         cliente.setHabilitado(Boolean.TRUE);
-        return repository.save(cliente);
+        cliente.setVersao(1L);
+        cliente.setDataCriacao(LocalDate.now());
+
+        Cliente clienteSalvo = repository.save(cliente);
+
+        emailService.enviarEmailConfirmacaoCadastroCliente(clienteSalvo);
+
+        return clienteSalvo;
     }
 
     @Transactional
     public void update(Long id, Cliente clienteAlterado) {
 
         Cliente cliente = repository.findById(id).get();
+
         cliente.setNome(clienteAlterado.getNome());
         cliente.setDataNascimento(clienteAlterado.getDataNascimento());
         cliente.setCpf(clienteAlterado.getCpf());
@@ -65,5 +80,4 @@ public class ClienteService {
 
         return repository.findById(id).get();
     }
-
 }
